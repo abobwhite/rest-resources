@@ -1,0 +1,22 @@
+{
+  "name": "rest-resources",
+  "private": true,
+  "scripts": {
+    "publish": "lerna run build && lerna publish",
+    "test": "jest --config=jest.config.js",
+    "lerna": "lerna",
+    "docs:start": "cd website && npm start",
+    "docs:install": "cd website && npm ci",
+    "docs:publish": "cd website && npm run publish-gh-pages"
+  },
+  "devDependencies": {
+    "@types/jest": "25.2.3",
+    "@types/node": "10.17.24",
+    "jest": "26.0.1",
+    "lerna": "3.22.0",
+    "ts-jest": "26.0.0",
+    "tslint": "6.1.2",
+    "tslint-eslint-rules": "5.4.0",
+    "typescript": "3.9.3"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "rest-resources-axios",
+  "version": "0.1.0",
+  "description": "Axios implementation of rest-resources",
+  "author": "Alex White <abobwhite89@gmail.com>",
+  "homepage": "https://github.com/abobwhite/rest-resources#readme",
+  "license": "Apache-2.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abobwhite/rest-resources.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies":  {
+    "axios": "0.19.2",
+    "rest-resources": "0.1.0"
+  },
+  "peerDependencies": {
+    "axios": "0.19.x"
+  },
+  "bugs": {
+    "url": "https://github.com/abobwhite/rest-resources/issues"
+  }
+}

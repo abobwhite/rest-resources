@@ -1,0 +1,33 @@
+{
+  "name": "examples",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Example usages of rest-resources",
+  "author": "Alex White <abobwhite89@gmail.com>",
+  "homepage": "https://github.com/abobwhite/rest-resources#readme",
+  "license": "Apache-2.0",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "rest-resources": "0.1.0",
+    "rest-resources-axios": "0.1.0",
+    "axios": "0.19.2",
+    "axios-mock-adapter": "1.17.0"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abobwhite/rest-resources.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/abobwhite/rest-resources/issues"
+  }
+}

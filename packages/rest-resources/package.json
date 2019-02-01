@@ -1,0 +1,34 @@
+{
+  "name": "rest-resources",
+  "version": "0.1.0",
+  "description": "Core library for utilizing rest-resources. This package must be included at a minimum. It will typically be used alongside an http implementation of one of its peer packages.",
+  "author": "Alex White <abobwhite89@gmail.com>",
+  "homepage": "https://github.com/abobwhite/rest-resources#readme",
+  "license": "Apache-2.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "dependencies": {
+    "reflect-metadata": "0.1.13"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abobwhite/rest-resources.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/abobwhite/rest-resources/issues"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "docs": {
+    "Documentation": [
+      "install",
+      {
+        "type": "subcategory",
+        "label": "Configure",
+        "ids": [
+          "config/resources",
+          "config/adapters",
+          "config/per-resource-adapters"
+        ]
+      }
+    ]
+  }
+}
