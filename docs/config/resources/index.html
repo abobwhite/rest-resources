@@ -62,16 +62,76 @@
             });
         </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">Resources</h1></header><article><div><span><p>The main concept in REST Resources is a <code>Resource</code>. A Resource should be your representation of entity, model, resource, data, etc. that you send to and receive from an API. It is <em>recommended</em> that this representation be a JavaScript/TypeScript class but any JavaScript <code>prototype</code> should work.</p>
 <p>REST Resources utilizes decorators to define and configure resources. These decorators are a simple way to provide functionality without writing a lot of code. Each decorator is outlined below. <code>Resource</code> and <code>ResourceKey</code> are the only required decorators while the others can be used to further configure your specific API interaction; however, provide defaults if not specified.</p>
-<h2><a class="anchor" aria-hidden="true" id="resource"></a><a href="#resource" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>@Resource</h2>
-<p>...</p>
-<h2><a class="anchor" aria-hidden="true" id="resourcekey"></a><a href="#resourcekey" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>@ResourceKey</h2>
-<p>...</p>
+<h2><a class="anchor" aria-hidden="true" id="resource-and-resourcekey"></a><a href="#resource-and-resourcekey" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>@Resource and @ResourceKey</h2>
+<p>A <code>Resource</code> is the representation of a RESTful resource from which the capabilities of this library come. This decorator should be used on a class and requires a single argument which represents the resource path within the API through which the resource can be accessed.</p>
+<p>A <code>ResourceKey</code> should be provided on the class property which identifies the resource. Typically <code>id</code>, <code>key</code>, or similar.</p>
+<pre><code class="hljs css language-typescript"><span class="hljs-keyword">import</span> {Resource, ResourceKey} <span class="hljs-keyword">from</span> <span class="hljs-string">'@daugherty/rest-resources'</span>
+
+<span class="hljs-meta">@Resource</span>(<span class="hljs-string">'employees'</span>)
+<span class="hljs-keyword">class</span> Employee {
+  <span class="hljs-meta">@ResourceKey</span>()
+  id: <span class="hljs-built_in">string</span>
+
+  givenName: <span class="hljs-built_in">string</span>
+  familyName: <span class="hljs-built_in">string</span>
+  birthdate: <span class="hljs-built_in">Date</span>
+}
+</code></pre>
+<p>The above example sets up a resource <code>employees</code> on a class <code>Employee</code> and specifies the <code>id</code> property as the resource key. The following code snippet shows how API calls would be invoked given the above configuration.</p>
+<pre><code class="hljs css language-typescript"><span class="hljs-keyword">import</span> {Resources} <span class="hljs-keyword">from</span> <span class="hljs-string">'@daugherty/rest-resources'</span>
+<span class="hljs-keyword">import</span> Employee <span class="hljs-keyword">from</span> <span class="hljs-string">'your-code/models/Employee'</span>
+
+Resources(Employee).findAll() <span class="hljs-comment">// GET /api/employees</span>
+
+Resources(Employee).findByKey(<span class="hljs-string">'1234'</span>) <span class="hljs-comment">// GET /api/employees/1234</span>
+
+Resources(Employee).query({ sortBy: <span class="hljs-string">'familyName'</span>, limit: <span class="hljs-number">10</span> }) <span class="hljs-comment">// GET /api/employees?sortBy=familyName&amp;limit=10</span>
+
+Resources(Employee).queryOne({ familyName: <span class="hljs-string">'White'</span>, givenName: <span class="hljs-string">'Alex'</span> }) <span class="hljs-comment">// GET /api/employees?familyName=White&amp;givenName=Alex</span>
+
+<span class="hljs-keyword">const</span> newEmployee = <span class="hljs-keyword">new</span> Employee()
+Resources(Employee).create(newEmployee) <span class="hljs-comment">// POST /api/employees</span>
+
+<span class="hljs-keyword">const</span> existingEmployee = <span class="hljs-keyword">new</span> Employee({ id: <span class="hljs-string">'9876'</span>})
+Resources(Employee).update(existingEmployee) <span class="hljs-comment">// PUT /api/employees/9876</span>
+
+<span class="hljs-keyword">const</span> existingEmployeeId = <span class="hljs-string">'9876'</span>
+<span class="hljs-keyword">const</span> existingEmployee = <span class="hljs-keyword">new</span> Employee({ givenName: <span class="hljs-string">'Alex'</span> })
+Resources(Employee).modify(existingEmployeeId, existingEmployee) <span class="hljs-comment">// PATCH /api/employees/9876</span>
+
+<span class="hljs-keyword">const</span> existingEmployeeId = <span class="hljs-string">'9876'</span>
+Resources(Employee).delete(existingEmployeeId) <span class="hljs-comment">// DELETE /api/employees/9876</span>
+</code></pre>
 <h2><a class="anchor" aria-hidden="true" id="resourceapi"></a><a href="#resourceapi" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>@ResourceApi</h2>
-<p>...</p>
+<p>Providing <code>ResourceApi</code> on the <code>Resource</code> class will override the default resource api path for that <code>Resource</code>.</p>
+<pre><code class="hljs css language-typescript"><span class="hljs-keyword">import</span> {Resource, ResourceApi, ResourceKey} <span class="hljs-keyword">from</span> <span class="hljs-string">'@daugherty/rest-resources'</span>
+
+<span class="hljs-meta">@Resource</span>(<span class="hljs-string">'employees'</span>)
+<span class="hljs-meta">@ResourceApi</span>(<span class="hljs-string">'https://my-api.com'</span>)
+<span class="hljs-keyword">class</span> Employee {
+  <span class="hljs-meta">@ResourceKey</span>()
+  id: <span class="hljs-built_in">string</span>
+
+  givenName: <span class="hljs-built_in">string</span>
+  familyName: <span class="hljs-built_in">string</span>
+  birthdate: <span class="hljs-built_in">Date</span>
+}
+</code></pre>
+<p>The above example will use <code>https://my-api.com</code> in its API requests instead of the default (either <code>/api</code> or the value provided at <code>ResourceConfig.defaultApiRoot</code>)</p>
+<p>For example:</p>
+<pre><code class="hljs css language-typescript"><span class="hljs-keyword">import</span> {Resources} <span class="hljs-keyword">from</span> <span class="hljs-string">'@daugherty/rest-resources'</span>
+<span class="hljs-keyword">import</span> Employee <span class="hljs-keyword">from</span> <span class="hljs-string">'your-code/models/Employee'</span>
+
+Resources(Employee).findAll() <span class="hljs-comment">// GET https://my-api.com/employees</span>
+
+Resources(Employee).findByKey(<span class="hljs-string">'1234'</span>) <span class="hljs-comment">// GET https://my-api.com/employees/1234</span>
+
+<span class="hljs-comment">//...</span>
+</code></pre>
 <h2><a class="anchor" aria-hidden="true" id="resourcepaths"></a><a href="#resourcepaths" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>@ResourcePaths</h2>
-<p>...</p>
+<p>Including <code>@ResourcePaths</code> in your <code>Resource</code> will allow you to specify different paths your API might use that differ from the defaults. If you choose to provide paths, your override must include keys found in <code>IResourcePaths</code> (see below). i.e. <code>findByKey</code>, <code>create</code>, etc.</p>
 <h3><a class="anchor" aria-hidden="true" id="iresourcepaths"></a><a href="#iresourcepaths" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>IResourcePaths</h3>
-<p>When specifying resource paths, the paths must meet the <code>IResourcePaths</code> interface.</p>
+<p>When specifying resource paths, the paths must meet the interface <code>Partial&lt;IResourcePaths&gt;</code>. Your paths will be merged with the default paths where the paths you define override the default.</p>
 <pre><code class="hljs css language-typescript"><span class="hljs-keyword">interface</span> IResourcePaths {
   findAll: <span class="hljs-built_in">string</span> <span class="hljs-comment">// GET - fetches all of this resource</span>
   findByKey: <span class="hljs-built_in">string</span> <span class="hljs-comment">// GET - fetches specific resource by key/identifier</span>
@@ -96,4 +156,25 @@
 }
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="resources"></a><a href="#resources" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resources()</h2>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/rest-resources/docs/install"><span class="arrow-prev">← </span><span>Install</span></a><a class="docs-next button" href="/rest-resources/docs/config/adapters"><span>Adapters</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#resource">@Resource</a></li><li><a href="#resourcekey">@ResourceKey</a></li><li><a href="#resourceapi">@ResourceApi</a></li><li><a href="#resourcepaths">@ResourcePaths</a><ul class="toc-headings"><li><a href="#iresourcepaths">IResourcePaths</a></li></ul></li><li><a href="#resources">Resources()</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/rest-resources/" class="nav-home"><img src="/rest-resources/img/favicon.ico" alt="REST Resources" width="66" height="58"/></a><div><h5>Docs</h5><a href="/rest-resources/docs/en/install">Install</a><a href="/rest-resources/docs/en/setup">Setup</a><a href="/rest-resources/docs/en/customize">Customize</a></div><div><h5>Examples</h5><a href="/rest-resources/docs/en/examples/examples-basic">Basic</a></div><div><h5>More</h5><a class="github-button" href="https://github.com/TeamDaugherty/rest-resources" data-icon="octicon-star" data-count-href="/TeamDaugherty/rest-resources/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><a href="https://daugherty.com" target="_blank" rel="noreferrer noopener"><img src="/rest-resources/img/team-daugherty.png" alt="Team Daugherty Open Source" width="175" class="fbOpenSource"/></a><section class="copyright">Copyright © 2020 Daugherty Business Solutions</section></footer></div></body></html>
+<p>In order to invoke the API calls for a <code>Resource</code>, you must invoke the <code>Resources</code> function with the <code>Resource</code> prototype as its argument. This function will return the <code>ResourceAdapter</code> which is defined, or generated, for your <code>Resource</code> prototype.</p>
+<p>For example:</p>
+<pre><code class="hljs css language-typescript"><span class="hljs-keyword">import</span> {Resource, ResourceKey} <span class="hljs-keyword">from</span> <span class="hljs-string">'@daugherty/rest-resources'</span>
+
+<span class="hljs-meta">@Resource</span>(<span class="hljs-string">'employees'</span>)
+<span class="hljs-keyword">class</span> Employee {
+  <span class="hljs-meta">@ResourceKey</span>()
+  id: <span class="hljs-built_in">string</span>
+
+  givenName: <span class="hljs-built_in">string</span>
+  familyName: <span class="hljs-built_in">string</span>
+  birthdate: <span class="hljs-built_in">Date</span>
+}
+</code></pre>
+<pre><code class="hljs css language-typescript"><span class="hljs-keyword">import</span> {Resources} <span class="hljs-keyword">from</span> <span class="hljs-string">'@daugherty/rest-resources'</span>
+<span class="hljs-keyword">import</span> Employee <span class="hljs-keyword">from</span> <span class="hljs-string">'resources/Employee'</span>
+
+(<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> employees = <span class="hljs-keyword">await</span> Resources(Employee).findAll()
+})()
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/rest-resources/docs/install"><span class="arrow-prev">← </span><span>Install</span></a><a class="docs-next button" href="/rest-resources/docs/config/adapters"><span>Adapters</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#resource-and-resourcekey">@Resource and @ResourceKey</a></li><li><a href="#resourceapi">@ResourceApi</a></li><li><a href="#resourcepaths">@ResourcePaths</a><ul class="toc-headings"><li><a href="#iresourcepaths">IResourcePaths</a></li></ul></li><li><a href="#resources">Resources()</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/rest-resources/" class="nav-home"><img src="/rest-resources/img/favicon.ico" alt="REST Resources" width="66" height="58"/></a><div><h5>Docs</h5><a href="/rest-resources/docs/en/install">Install</a><a href="/rest-resources/docs/en/setup">Setup</a><a href="/rest-resources/docs/en/customize">Customize</a></div><div><h5>Examples</h5><a href="/rest-resources/docs/en/examples/examples-basic">Basic</a></div><div><h5>More</h5><a class="github-button" href="https://github.com/TeamDaugherty/rest-resources" data-icon="octicon-star" data-count-href="/TeamDaugherty/rest-resources/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><a href="https://daugherty.com" target="_blank" rel="noreferrer noopener"><img src="/rest-resources/img/team-daugherty.png" alt="Team Daugherty Open Source" width="175" class="fbOpenSource"/></a><section class="copyright">Copyright © 2020 Daugherty Business Solutions</section></footer></div></body></html>
