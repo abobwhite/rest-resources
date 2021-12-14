@@ -15,7 +15,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 Before running, you will need to install the following:
 
-* [Node v10](https://nodejs.org)
+* [Node v14](https://nodejs.org)
 
 ### Installing
 
@@ -42,6 +42,9 @@ Simply run `npm run docs:start` to run and open the docs at `http://localhost:30
 Publishing requires permission for this package through npmjs.org.
 
 To publish, run `npm publish`. Publishing uses Lerna.
+
+### Publishing Docs
+To publish the docs to Github pages, run `GIT_USER=<github_username> USE_SSH=true npm run docs:publish` where you replace `<github_username>`. This will publish to https://abobwhite.github.io/rest-resources/ 
 
 ## Built With
 
